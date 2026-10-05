@@ -10,26 +10,21 @@ Webcam Res = 1280 x 720
 FOV - H = 102 deg
 FOV - D = 120 deg
 """
-aspectRatio = 1280 / 720
-horizontalFOV = 102
-verticalFOV = math.degrees(2 * math.atan( math.tan ( math.radians(102) / 2 ) / aspectRatio)) 
-center = (1280 / 2, 720 / 2)
 frameWidth = 1280
 frameHeight = 720
-
+horizontalFOV = 102
+verticalFOV = horizontalFOV * frameHeight / frameWidth
+center = (1280 / 2, 720 / 2)
+"""
 # Defining Servos
-panServo = AngularServo(17, min_angle = 10, max_angle = 170)
-tiltServo = AngularServo(27, min_angle = 10, max_angle = 170)
-initialAngle = 90
-panServo.angle, tiltServo.angle = 90, 90
+panServo = AngularServo(17, initial_angle = 90, min_angle = 10, max_angle = 170)
+tiltServo = AngularServo(27, initial_angle = 90, min_angle = 10, max_angle = 170)
+"""
+# Defining the first object being detected
+currentTarget = "Hair Brush"
 
-def pixelToServoAngle(pixel, inputMin, inputMax, outputMin = 10, outputMax = 170):
-    a = pixel - inputMin
-    b = outputMax - outputMin
-    c = inputMax - inputMin
-    angle = outputMin + (a * b) / c
-    return angle
 
+# Helper FUnctions
 def setAngleLimit(angle):
     return max(10, min(angle, 170))
 
@@ -40,8 +35,6 @@ def moveServoWithoutGPIO(panAngle = None, tiltAngle = None):
     if tiltAngle is not None:
         moveTiltAngle = setAngleLimit(tiltServo.angle + (tiltAngle * 0.3)) # smoothing
 
-
-
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
 
@@ -51,13 +44,6 @@ def moveServoWithoutGPIO(panAngle = None, tiltAngle = None):
     elif panAngle is not None and tiltAngle is not None:
         panServo.angle, tiltServo.angle = movePanAngle, moveTiltAngle
 
-    else:
-        return
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-currentTarget = "Hair Brush"
 def dynamicTargetChange():
     global currentTarget
     print("Current Target Set to 'Hair Brush'")
@@ -83,7 +69,7 @@ def objectCentroidToServo(Xcenter, Ycenter):
     return adjustedDegreeX, adjustedDegreeY
 
 
-
+# Main Function
 def liveVideoWithObjectDetection():
     model = YOLO("best.pt")
     liveVideo = cv2.VideoCapture(0)
@@ -129,13 +115,13 @@ def liveVideoWithObjectDetection():
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter)
-      
+            """
             if (abs(correctedPanAngle) >= 2):
                 moveServoWithoutGPIO(correctedPanAngle)
 
             if (abs(correctedTiltAngle) >= 2):
                 moveServoWithoutGPIO(None, correctedTiltAngle)
-            
+            """
         annotated_frame = result[validList].plot()
         cv2.imshow('Live Video', annotated_frame)
         keyPressed = cv2.waitKey(1)
@@ -146,21 +132,3 @@ def liveVideoWithObjectDetection():
     liveVideo.release()
     cv2.destroyAllWindows()
 liveVideoWithObjectDetection()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        newPanAngle = previousPanAngle + 0.3 * (panAngle - previousPanAngle)
-    newTiltAngle = previousTiltAngle + 0.3 * (tiltAngle - previousTiltAngle)
