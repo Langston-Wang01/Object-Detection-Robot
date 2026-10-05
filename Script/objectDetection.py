@@ -3,8 +3,6 @@ from ultralytics import YOLO # type: ignore
 import threading
 from gpiozero import AngularServo
 import math
-import torch
-torch.backends.mkldnn.enabled = False
 
 # Specifications of Webcam
 """ 
@@ -73,7 +71,7 @@ def objectCentroidToServo(Xcenter, Ycenter):
 
 # Main Function
 def liveVideoWithObjectDetection():
-    model = YOLO("best.pt")
+    model = YOLO("best.onnx")
     liveVideo = cv2.VideoCapture(0)
 
     thread = threading.Thread(target = dynamicTargetChange, daemon = True)
