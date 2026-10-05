@@ -10,6 +10,7 @@
 
 *PyTorch*
 1. https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+
 *i) Learning About Neural Networks*
 1. https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi (Videos 1-3)
 
