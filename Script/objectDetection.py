@@ -3,6 +3,7 @@ from ultralytics import YOLO # type: ignore
 import threading
 from gpiozero import AngularServo
 import math
+from lgservo import LgServo
 
 showWindow = False
 
@@ -19,8 +20,8 @@ verticalFOV = horizontalFOV * frameHeight / frameWidth
 center = (1280 / 2, 720 / 2)
 
 # Defining Servos
-panServo = AngularServo(17, initial_angle = 90, min_angle = 10, max_angle = 170)
-tiltServo = AngularServo(27, initial_angle = 90, min_angle = 10, max_angle = 170)
+panServo = LgServo(17, initial_angle = 90, min_angle = 10, max_angle = 170)
+tiltServo = LgServo(27, initial_angle = 90, min_angle = 10, max_angle = 170)
 
 # Defining the first object being detected
 currentTarget = "Phone"
