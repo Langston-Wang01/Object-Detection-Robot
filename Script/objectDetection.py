@@ -78,6 +78,7 @@ def liveVideoWithObjectDetection():
 
     thread = threading.Thread(target = dynamicTargetChange, daemon = True)
     thread.start()
+    print("loop running")
     while True:
         retval, frame = liveVideo.read()
         if not retval:
