@@ -52,8 +52,8 @@ def dynamicTargetChange():
 
 def objectCentroidToServo(Xcenter, Ycenter, frameWidth, frameHeight):
     # Calculate degrees needed to have object at the center of the camera
-    xError = center[0] - Xcenter
-    yError = center[1] - Ycenter
+    xError = frameWidth / 2 - Xcenter
+    yError = frameHeight / 2 - Ycenter
 
     verticalFOV = horizontalFOV * frameHeight / frameWidth
     degreesPerPixelX = horizontalFOV / frameWidth
