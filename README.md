@@ -2,26 +2,28 @@
 
 ### Resources for Learning
 *NumPy*
-https://www.youtube.com/watch?v=QUT1VHiLmmI
+1. https://www.youtube.com/watch?v=QUT1VHiLmmI
+2. https://www.classcentral.com/classroom/youtube-image-processing-with-python-54897 (Video 1 and 2)
 
+*OpenCV*
+1. https://www.youtube.com/watch?v=oXlwWbU8l2o&list=LL&index=15&t=7344s
 
+*PyTorch*
+1. https://docs.pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+*i) Learning About Neural Networks*
+1. https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi (Videos 1-3)
 
+*Linux / Raspberry Pi*
+1. https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=10455s
+2. https://pinout.xyz
 
+*Tools*
+i) Roboflow https://www.youtube.com/watchv=a3SBRtILjPI&t=221s&pp=ygURcm9ib2Zsb3cgdHV0b3JpYWw%3D
+ii) Ultralytics
+https://academy.ultralytics.com/courses/train-your-first-yolo
+https://docs.ultralytics.com/guides/model-evaluation-insights
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Personal Summary Over The Months
 
 ### July Summary(27th - 31st): NumPy & Image Fundamentals
 - Learned NumPy array creation, slicing, reshaping, and data types, like uint8.
