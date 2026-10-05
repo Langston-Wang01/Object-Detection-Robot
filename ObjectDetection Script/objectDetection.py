@@ -15,13 +15,13 @@ frameHeight = 720
 horizontalFOV = 102
 verticalFOV = horizontalFOV * frameHeight / frameWidth
 center = (1280 / 2, 720 / 2)
-"""
+
 # Defining Servos
 panServo = AngularServo(17, initial_angle = 90, min_angle = 10, max_angle = 170)
 tiltServo = AngularServo(27, initial_angle = 90, min_angle = 10, max_angle = 170)
-"""
+
 # Defining the first object being detected
-currentTarget = "Hair Brush"
+currentTarget = "Phone"
 
 
 # Helper FUnctions
@@ -48,7 +48,7 @@ def dynamicTargetChange():
     global currentTarget
     print("Current Target Set to 'Hair Brush'")
     while True:
-        newTarget = input("Would You Like A New Target?: ")
+        newTarget = input("New Target: ")
         if "tv" in newTarget.lower():
              newTarget = newTarget.strip().title().replace("Tv", "TV")
         else:
@@ -115,13 +115,13 @@ def liveVideoWithObjectDetection():
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter)
-            """
+            
             if (abs(correctedPanAngle) >= 2):
                 moveServoWithoutGPIO(correctedPanAngle)
 
             if (abs(correctedTiltAngle) >= 2):
                 moveServoWithoutGPIO(None, correctedTiltAngle)
-            """
+            
         annotated_frame = result[validList].plot()
         cv2.imshow('Live Video', annotated_frame)
         keyPressed = cv2.waitKey(1)
