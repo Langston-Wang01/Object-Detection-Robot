@@ -33,10 +33,10 @@ def setAngleLimit(angle):
 
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
-        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.3)) # smoothing
+        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.15)) # smoothing
         
     if tiltAngle is not None:
-        moveTiltAngle = setAngleLimit(tiltServo.angle + (tiltAngle * 0.3)) # smoothing
+        moveTiltAngle = setAngleLimit(tiltServo.angle + (tiltAngle * 0.15)) # smoothing
 
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
@@ -77,6 +77,7 @@ def objectCentroidToServo(Xcenter, Ycenter):
 def liveVideoWithObjectDetection():
     model = YOLO("best.onnx")
     liveVideo = cv2.VideoCapture(0)
+    liveVideo.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
     thread = threading.Thread(target = dynamicTargetChange, daemon = True)
     thread.start()
@@ -132,7 +133,7 @@ def liveVideoWithObjectDetection():
                 moveServo(None, correctedTiltAngle)
             else:
                 tiltServo.release()
-                
+
             print("loop end")
         if showWindow:
             annotated_frame = result[validList].plot()
