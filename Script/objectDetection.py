@@ -4,6 +4,8 @@ import threading
 from gpiozero import AngularServo
 import math
 
+showWindow = False
+
 # Specifications of Webcam
 """ 
 Webcam Res = 1280 x 720
@@ -121,14 +123,18 @@ def liveVideoWithObjectDetection():
 
             if (abs(correctedTiltAngle) >= 2):
                 moveServoWithoutGPIO(None, correctedTiltAngle)
-            
-        annotated_frame = result[validList].plot()
-        cv2.imshow('Live Video', annotated_frame)
-        keyPressed = cv2.waitKey(1)
-
-        if keyPressed & 0xFF == ord('q'):
-            break
+        if showWindow:
+            annotated_frame = result[validList].plot()
+            cv2.imshow('Live Video', annotated_frame)
+            keyPressed = cv2.waitKey(1)
+            if keyPressed & 0xFF == ord('q'):
+                break
 
     liveVideo.release()
-    cv2.destroyAllWindows()
-liveVideoWithObjectDetection()
+    if showWindow:
+        cv2.destroyAllWindows()
+
+try:
+    liveVideoWithObjectDetection()
+except KeyboardInterrupt:
+    print("Stopped")
