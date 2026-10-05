@@ -40,7 +40,6 @@ https://docs.ultralytics.com/guides/model-evaluation-insights
 - Started learning PyTorch tensors and how they compare to NumPy arrays
 - Recapped and learned more Linux command-line commands to make navigating the Pi easier
 - Set up a Raspberry Pi headless setup, utilizing Raspberry Connect.
-- Created 
 - Took notes on Linux command line for smooth navigation
 - Set up the initial pan-tilt setup using the Pi's GPIO pins, SG90 servo motors, and separate batteries for power.
 - Had Claude write a quick test script for testing servos
