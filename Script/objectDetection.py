@@ -117,8 +117,8 @@ def liveVideoWithObjectDetection():
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter)
-            print(f"det={'Y' if validList else 'N'}  panErr={correctedPanAngle:+.1f}  tiltErr={correctedTiltAngle:+.1f}  "
-            f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
+            print(f"det={'Y' if validList else 'N'}  panErr={correctedPanAngle:+.1f}  tiltErr={correctedTiltAngle:+.1f}"
+                  f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
             
             if (abs(correctedPanAngle) >= 2):
                 moveServoWithoutGPIO(correctedPanAngle)
