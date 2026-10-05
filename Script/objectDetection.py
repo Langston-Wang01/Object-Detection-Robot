@@ -33,10 +33,10 @@ def setAngleLimit(angle):
 
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
-        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.15)) # smoothing
+        movePanAngle = setAngleLimit(panServo.angle - (panAngle * 0.15)) # smoothing
         
     if tiltAngle is not None:
-        moveTiltAngle = setAngleLimit(tiltServo.angle + (tiltAngle * 0.15)) # smoothing
+        moveTiltAngle = setAngleLimit(tiltServo.angle - (tiltAngle * 0.15)) # smoothing
 
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
@@ -118,6 +118,8 @@ def liveVideoWithObjectDetection():
                 indexForValidList += 1
             detectedObjects = BoundingBox.xywh
             currentXCenter, currentYCenter = detectedObjects[bestRow][0], detectedObjects[bestRow][1]
+            
+            print("box center:", float(currentXCenter), float(currentYCenter), "| frame:", frameWidth, frameHeight)
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter)
