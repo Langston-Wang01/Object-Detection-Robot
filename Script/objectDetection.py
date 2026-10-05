@@ -20,8 +20,8 @@ verticalFOV = horizontalFOV * frameHeight / frameWidth
 center = (1280 / 2, 720 / 2)
 
 # Defining Servos
-panServo = HwServo(17, initial_angle = 90, min_angle = 10, max_angle = 170)
-tiltServo = HwServo(27, initial_angle = 90, min_angle = 10, max_angle = 170)
+panServo = HwServo(0, initial_angle = 90, min_angle = 10, max_angle = 170)
+tiltServo = HwServo(1, initial_angle = 90, min_angle = 10, max_angle = 170)
 
 # Defining the first object being detected
 currentTarget = "Phone"
