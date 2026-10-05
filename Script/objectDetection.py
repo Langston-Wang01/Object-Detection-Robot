@@ -30,7 +30,7 @@ currentTarget = "Phone"
 def setAngleLimit(angle):
     return max(10, min(angle, 170))
 
-def moveServoWithoutGPIO(panAngle = None, tiltAngle = None):
+def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
         movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.3)) # smoothing
         
@@ -45,6 +45,7 @@ def moveServoWithoutGPIO(panAngle = None, tiltAngle = None):
 
     elif panAngle is not None and tiltAngle is not None:
         panServo.angle, tiltServo.angle = movePanAngle, moveTiltAngle
+    print("moved ->", panServo.angle, tiltServo.angle)
 
 def dynamicTargetChange():
     global currentTarget
@@ -122,10 +123,11 @@ def liveVideoWithObjectDetection():
                   f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
             
             if (abs(correctedPanAngle) >= 2):
-                moveServoWithoutGPIO(correctedPanAngle)
+                moveServo(correctedPanAngle)
 
             if (abs(correctedTiltAngle) >= 2):
-                moveServoWithoutGPIO(None, correctedTiltAngle)
+                moveServo(None, correctedTiltAngle)
+            print("loop end")
         if showWindow:
             annotated_frame = result[validList].plot()
             cv2.imshow('Live Video', annotated_frame)
