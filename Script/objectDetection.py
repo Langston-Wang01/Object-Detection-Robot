@@ -1,24 +1,14 @@
 import cv2
 from ultralytics import YOLO # type: ignore
 import threading
-from gpiozero import AngularServo
-import math
 from hwservo import HwServo
 import time
 
 showWindow = False
 
 # Specifications of Webcam
-""" 
-Webcam Res = 1280 x 720
-FOV - H = 102 deg
-FOV - D = 120 deg
-"""
-frameWidth = 1280
-frameHeight = 720
 horizontalFOV = 102
-verticalFOV = horizontalFOV * frameHeight / frameWidth
-center = (1280 / 2, 720 / 2)
+
 
 # Defining Servos
 panServo = HwServo(0, initial_angle = 90, min_angle = 10, max_angle = 170)
@@ -60,11 +50,12 @@ def dynamicTargetChange():
             newTarget = newTarget.strip().title()
         currentTarget = newTarget
 
-def objectCentroidToServo(Xcenter, Ycenter):
+def objectCentroidToServo(Xcenter, Ycenter, frameWidth, frameHeight):
     # Calculate degrees needed to have object at the center of the camera
     xError = center[0] - Xcenter
     yError = center[1] - Ycenter
 
+    verticalFOV = horizontalFOV * frameHeight / frameWidth
     degreesPerPixelX = horizontalFOV / frameWidth
     degreesPerPixelY = verticalFOV / frameHeight
 
@@ -88,7 +79,9 @@ def liveVideoWithObjectDetection():
 
         retval, frame = liveVideo.read()
         if not retval:
-            break 
+            break
+        frameHeight, frameWidth = frame.shape[:2]
+
         result = (model(frame, stream = False, verbose = False))[0]
         BoundingBox = result.boxes
 
@@ -125,7 +118,7 @@ def liveVideoWithObjectDetection():
             print("box center:", float(currentXCenter), float(currentYCenter), "| frame:", frameWidth, frameHeight)
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
-            correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter)
+            correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter, frameWidth, frameHeight)
             print(f"det={'Y' if validList else 'N'}  panErr={correctedPanAngle:+.1f}  tiltErr={correctedTiltAngle:+.1f}"
                   f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
             
