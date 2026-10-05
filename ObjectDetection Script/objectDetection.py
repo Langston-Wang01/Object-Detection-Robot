@@ -2,7 +2,9 @@ import cv2
 from ultralytics import YOLO # type: ignore
 import threading
 from gpiozero import AngularServo
-import math 
+import math
+import torch
+torch.backends.mkldnn.enabled = False
 
 # Specifications of Webcam
 """ 
@@ -46,7 +48,7 @@ def moveServoWithoutGPIO(panAngle = None, tiltAngle = None):
 
 def dynamicTargetChange():
     global currentTarget
-    print("Current Target Set to 'Hair Brush'")
+    print("Current Target Set to 'Phone'")
     while True:
         newTarget = input("New Target: ")
         if "tv" in newTarget.lower():
