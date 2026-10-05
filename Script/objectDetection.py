@@ -19,15 +19,20 @@ currentTarget = "Phone"
 
 
 # Helper FUnctions
+MAX_STEP = 4   # degrees per frame
+
+def limitStep(step):
+    return max(-MAX_STEP, min(MAX_STEP, step))
+
 def setAngleLimit(angle):
     return max(10, min(angle, 170))
 
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
-        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.3)) # smoothing
+        movePanAngle = setAngleLimit(panServo.angle + limitStep(panAngle * 0.3)) # smoothing
         
     if tiltAngle is not None:
-        moveTiltAngle = setAngleLimit(tiltServo.angle - (tiltAngle * 0.3)) # smoothing
+        moveTiltAngle = setAngleLimit(tiltServo.angle - limitStep(tiltAngle * 0.3)) # smoothing
 
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
@@ -90,7 +95,7 @@ def liveVideoWithObjectDetection():
         for position, idx in enumerate(namesList): # filters out labels that don't match users request
             index = int(idx)
             currentName = result.names[index]
-            if currentName == currentTarget:
+            if currentName == currentTarget and float(BoundingBox.conf[position] > 0.4):
                 validList.append(position)
 
         # Calculated Object's Centroid
