@@ -37,7 +37,6 @@ def moveServo(panAngle = None, tiltAngle = None):
 
     elif panAngle is not None and tiltAngle is not None:
         panServo.angle, tiltServo.angle = movePanAngle, moveTiltAngle
-    print("moved ->", panServo.angle, tiltServo.angle)
 
 def dynamicTargetChange():
     global currentTarget
@@ -115,23 +114,16 @@ def liveVideoWithObjectDetection():
             detectedObjects = BoundingBox.xywh
             currentXCenter, currentYCenter = detectedObjects[bestRow][0], detectedObjects[bestRow][1]
 
-            print("box center:", float(currentXCenter), float(currentYCenter), "| frame:", frameWidth, frameHeight)
-
         # Calculating Servo Angle, but also creating smoothing and deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter, frameWidth, frameHeight)
-            print(f"det={'Y' if validList else 'N'}  panErr={correctedPanAngle:+.1f}  tiltErr={correctedTiltAngle:+.1f}"
-                  f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
             
-            if (abs(correctedPanAngle) >= 4):
+            if (abs(correctedPanAngle) >= 8):
                 moveServo(correctedPanAngle)
         
 
-            if (abs(correctedTiltAngle) >= 4):
+            if (abs(correctedTiltAngle) >= 8):
                 moveServo(None, correctedTiltAngle)
            
-
-            print("loop end")
-            print(f"loop time {time.time() - loopStart:.3f}s  ({1/(time.time() - loopStart):.1f} fps)")
         if showWindow:
             annotated_frame = result[validList].plot()
             cv2.imshow('Live Video', annotated_frame)
