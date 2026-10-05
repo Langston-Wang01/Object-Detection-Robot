@@ -4,6 +4,7 @@ import threading
 from gpiozero import AngularServo
 import math
 from hwservo import HwServo
+import time
 
 showWindow = False
 
@@ -33,10 +34,10 @@ def setAngleLimit(angle):
 
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
-        movePanAngle = setAngleLimit(panServo.angle - (panAngle * 0.15)) # smoothing
+        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.3)) # smoothing
         
     if tiltAngle is not None:
-        moveTiltAngle = setAngleLimit(tiltServo.angle - (tiltAngle * 0.15)) # smoothing
+        moveTiltAngle = setAngleLimit(tiltServo.angle - (tiltAngle * 0.3)) # smoothing
 
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
@@ -83,6 +84,8 @@ def liveVideoWithObjectDetection():
     thread.start()
     print("loop running")
     while True:
+        loopStart = time.time()
+
         retval, frame = liveVideo.read()
         if not retval:
             break 
@@ -118,7 +121,7 @@ def liveVideoWithObjectDetection():
                 indexForValidList += 1
             detectedObjects = BoundingBox.xywh
             currentXCenter, currentYCenter = detectedObjects[bestRow][0], detectedObjects[bestRow][1]
-            
+
             print("box center:", float(currentXCenter), float(currentYCenter), "| frame:", frameWidth, frameHeight)
 
         # Calculating Servo Angle, but also creating smoothing and deadbanding
@@ -137,6 +140,7 @@ def liveVideoWithObjectDetection():
                 tiltServo.release()
 
             print("loop end")
+            print(f"loop time {time.time() - loopStart:.3f}s  ({1/(time.time() - loopStart):.1f} fps)")
         if showWindow:
             annotated_frame = result[validList].plot()
             cv2.imshow('Live Video', annotated_frame)
