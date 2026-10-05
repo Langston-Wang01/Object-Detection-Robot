@@ -122,15 +122,13 @@ def liveVideoWithObjectDetection():
             print(f"det={'Y' if validList else 'N'}  panErr={correctedPanAngle:+.1f}  tiltErr={correctedTiltAngle:+.1f}"
                   f"pan={panServo.angle:.0f}  tilt={tiltServo.angle:.0f}")
             
-            if (abs(correctedPanAngle) >= 2):
+            if (abs(correctedPanAngle) >= 4):
                 moveServo(correctedPanAngle)
-            else:
-                panServo.release()
+        
 
-            if (abs(correctedTiltAngle) >= 2):
+            if (abs(correctedTiltAngle) >= 4):
                 moveServo(None, correctedTiltAngle)
-            else:
-                tiltServo.release()
+           
 
             print("loop end")
             print(f"loop time {time.time() - loopStart:.3f}s  ({1/(time.time() - loopStart):.1f} fps)")
