@@ -125,9 +125,14 @@ def liveVideoWithObjectDetection():
             
             if (abs(correctedPanAngle) >= 2):
                 moveServo(correctedPanAngle)
+            else:
+                panServo.release()
 
             if (abs(correctedTiltAngle) >= 2):
                 moveServo(None, correctedTiltAngle)
+            else:
+                tiltServo.release()
+                
             print("loop end")
         if showWindow:
             annotated_frame = result[validList].plot()

@@ -35,3 +35,5 @@ class LgServo:
 
     def close(self):
         lgpio.tx_servo(_handle(), self.pin, 0)   # stop pulses
+    def release(self):
+        lgpio.tx_servo(_handle(), self.pin, 0)   # stop pulses, servo holds in place
