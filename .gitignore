@@ -8,3 +8,6 @@ New training Images/.DS_Store
 .vscode/
 .DS_Store
 .vscode/
+.venv/
+.vscode/
+.DS_Store
