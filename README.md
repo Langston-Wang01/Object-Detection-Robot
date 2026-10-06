@@ -33,7 +33,7 @@ ii) Ultralytics
 https://academy.ultralytics.com/courses/train-your-first-yolo
 https://docs.ultralytics.com/guides/model-evaluation-insights
 
-### Personal Summary Over The Months
+# Personal Summary Over The Months
 
 ### July Summary(27th - 31st): NumPy & Image Fundamentals
 - Learned NumPy array creation, slicing, reshaping, and data types, like uint8.
