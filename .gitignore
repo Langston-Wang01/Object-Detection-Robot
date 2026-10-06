@@ -6,3 +6,5 @@ runs/
 *.pt
 New training Images/.DS_Store
 .vscode/
+.DS_Store
+.vscode/
