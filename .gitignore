@@ -4,4 +4,5 @@ __pycache__/
 .DS_Store
 runs/
 *.pt
-New training Images/
+New training Images/.DS_Store
+.vscode/
