@@ -1,8 +1,8 @@
 # Materials 
-x2 Micro Servo 9g, dual-arm servo horn (SG90)
-x1 Raspberry Pi 4 Model B
-x1 Inno-Maker U20CAM-720P
-x2 4 Cell AA Battery Holders
+1. x2 Micro Servo 9g, dual-arm servo horn (SG90)
+2. x1 Raspberry Pi 4 Model B
+3. x1 Inno-Maker U20CAM-720P
+4. x2 4 Cell AA Battery Holders
 
 
 # Object Detection Robot Log
