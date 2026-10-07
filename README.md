@@ -60,6 +60,4 @@ https://docs.ultralytics.com/guides/model-evaluation-insights
 - Began writing the Object Detection script
 - Whilst writing the script, began modeling the physical pan-tilt on Onshape
 
-***October Summary (1st - 5th)***
-
   
