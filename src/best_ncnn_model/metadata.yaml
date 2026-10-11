@@ -1,6 +1,6 @@
-description: Ultralytics best model trained on /content/Hand-2/data.yaml
+description: Ultralytics best model trained on /content/Hand-3/data.yaml
 author: Ultralytics
-date: '2026-10-11T08:35:05.204665+00:00'
+date: '2026-10-11T23:24:58.681254+00:00'
 version: 8.4.175
 license: AGPL-3.0 License (https://ultralytics.com/license)
 docs: https://docs.ultralytics.com
@@ -13,10 +13,9 @@ imgsz:
 - 320
 names:
   0: Calculator
-  1: Cup
-  2: Hand
-  3: Mug
-  4: battery
+  1: Hand
+  2: Mug
+  3: Wrench
 args:
   batch: 1
   quantize: null
