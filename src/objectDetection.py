@@ -141,4 +141,6 @@ def liveVideoWithObjectDetection():
 try:
     liveVideoWithObjectDetection()
 except KeyboardInterrupt:
+    panServo.detach()  
+    tiltServo.detach()
     print("Stopped")
