@@ -12,24 +12,29 @@ horizontalFOV = 102
 # Setting up pigpiod daemon and  Servos
 pigoioFactory = PiGPIOFactory()
 panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
-tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
+tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 100, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
 
 # Defining the first object being detected
 currentTarget = "Hand"
-
 # Helper FUnctions
 
-def setAngleLimit(angle): # ensures we dont get errors if angles go past limits
+def setAngleLimitPan(angle): # ensures we dont get errors if angles go past limits
     angle = min(180, angle)
     angle = max(0, angle)
     return angle
 
+def setAngleLimitTilt(angle): # ensures we dont get errors if angles go past limits
+    angle = min(100, angle)
+    angle = max(0, angle)
+    return angle
+
+
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
-        movePanAngle = setAngleLimit(panServo.angle + (panAngle * 0.3)) # smoothing
+        movePanAngle = setAngleLimitPan(panServo.angle + (panAngle * 0.3)) # smoothing
         
     if tiltAngle is not None:
-        moveTiltAngle = setAngleLimit(tiltServo.angle - (tiltAngle * 0.3)) # smoothing
+        moveTiltAngle = setAngleLimitTilt(tiltServo.angle - (tiltAngle * 0.3)) # smoothing
 
     if panAngle is not None and tiltAngle is None:
          panServo.angle = movePanAngle
@@ -45,10 +50,7 @@ def dynamicTargetChange():
     print("Current Target is 'Hand'")
     while True:
         newTarget = input("Select a Target: ")
-        if "tv" in newTarget.lower():
-             newTarget = newTarget.strip().title().replace("Tv", "TV")
-        else:
-            newTarget = newTarget.strip().title()
+        newTarget = newTarget.strip().title()
         currentTarget = newTarget
 
 def objectCentroidToServo(Xcenter, Ycenter, frameWidth, frameHeight):
@@ -122,7 +124,7 @@ def liveVideoWithObjectDetection():
             if (abs(correctedTiltAngle) >= 1):
                 moveServo(None, correctedTiltAngle)
 
-        if showWindow:
+        if showWindow: # Used for when I want to see what the webcam sees
             annotated_frame = result[validList].plot()
             cv2.imshow('Live Video', annotated_frame)
             keyPressed = cv2.waitKey(1)

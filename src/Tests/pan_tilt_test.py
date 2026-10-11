@@ -30,7 +30,7 @@ if (input2 == "Yes"):
     sleep(1)
     tilt.angle = 180  
     sleep(1)
-    tilt.angle = 90   
+    tilt.angle = 70   
     sleep(1)
     tilt.angle = 0    
     sleep(1)
