@@ -1,18 +1,18 @@
 import cv2
 from ultralytics import YOLO # type: ignore
 import threading
-from gpio import AngularServo
-from gpio.pins.pigpio import PiGPIOFactory
-showWindow = False
+from gpiozero import AngularServo
+from gpiozero.pins.pigpio import PiGPIOFactory
+showWindow = True
 
 # Specifications of Webcam
 horizontalFOV = 102
 
 
 # Setting up pigpiod daemon and  Servos
-pigoioFactory = PiGPIOFactory()
-panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
-tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+#pigoioFactory = PiGPIOFactory()
+#panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+#tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
 
 # Defining the first object being detected
 currentTarget = "Hand"
@@ -80,7 +80,7 @@ def liveVideoWithObjectDetection():
             break
         frameHeight, frameWidth = frame.shape[:2]
 
-        result = (model(frame, stream = False, verbose = False, imgzs = 320))[0]
+        result = (model(frame, stream = False, verbose = False, imgsz = 320))[0]
         BoundingBox = result.boxes
         # Filtering out names
         namesList = BoundingBox.cls
@@ -114,14 +114,14 @@ def liveVideoWithObjectDetection():
 
         # Calculating Servo Angle, but also creating deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter, frameWidth, frameHeight)
-            
+            """
             if (abs(correctedPanAngle) >= 1):
-                moveServo(correctedPanAngle)
+                #moveServo(correctedPanAngle)
         
 
             if (abs(correctedTiltAngle) >= 1):
                 moveServo(None, correctedTiltAngle)
-           
+           """
         if showWindow:
             annotated_frame = result[validList].plot()
             cv2.imshow('Live Video', annotated_frame)

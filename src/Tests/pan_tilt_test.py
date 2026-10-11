@@ -1,12 +1,12 @@
-from gpiozero import AngularServo 
+from gpiozero import AngularServo
+from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep    
 
-# Creates a servo object on GPIO pin 17, telling gpiozero this servo can move
-# from 0 to 180 degrees.
-pan = AngularServo(17, min_angle = 0, max_angle = 180)  
+pigoioFactory = PiGPIOFactory()
 
-# Same as above, but for GPIO pin 27
-tilt = AngularServo(27, min_angle= 0, max_angle = 180)
+pan = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+tilt = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+
 
 
 
@@ -35,6 +35,6 @@ if (input2 == "Yes"):
     tilt.angle = 0    
     sleep(1)
 
-    
+
 pan.detach()   # stops sending a signal to the pan servo, so it stops holding position/torque
 tilt.detach()  # same as above, for the tilt servo
