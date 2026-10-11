@@ -1,0 +1,20 @@
+description: Ultralytics best model trained on /content/Hand-1/data.yaml
+author: Ultralytics
+date: '2026-10-11T02:40:44.447274+00:00'
+version: 8.4.175
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+head: Detect
+batch: 1
+imgsz:
+- 320
+- 320
+names:
+  0: Hand
+args:
+  batch: 1
+  quantize: null
+channels: 3
+end2end: false

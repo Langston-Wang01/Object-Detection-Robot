@@ -1,27 +1,28 @@
 import cv2
 from ultralytics import YOLO # type: ignore
 import threading
-from hwservo import HwServo
-import time
-
+from gpio import AngularServo
+from gpio.pins.pigpio import PiGPIOFactory
 showWindow = False
 
 # Specifications of Webcam
 horizontalFOV = 102
 
 
-# Defining Servos
-panServo = HwServo(0, initial_angle = 90, min_angle = 10, max_angle = 170)
-tiltServo = HwServo(1, initial_angle = 90, min_angle = 10, max_angle = 170)
+# Setting up pigpiod daemon and  Servos
+pigoioFactory = PiGPIOFactory()
+panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
 
 # Defining the first object being detected
-currentTarget = "Phone"
-
+currentTarget = "Hand"
 
 # Helper FUnctions
 
-def setAngleLimit(angle):
-    return max(10, min(angle, 170))
+def setAngleLimit(angle): # ensures we dont get errors if angles go past limits
+    angle = min(180, angle)
+    angle = max(0, angle)
+    return angle
 
 def moveServo(panAngle = None, tiltAngle = None):
     if panAngle is not None:
@@ -41,9 +42,9 @@ def moveServo(panAngle = None, tiltAngle = None):
 
 def dynamicTargetChange():
     global currentTarget
-    print("Current Target Set to 'Phone'")
+    print("Current Target is 'Hand'")
     while True:
-        newTarget = input("New Target: ")
+        newTarget = input("Select a Target: ")
         if "tv" in newTarget.lower():
              newTarget = newTarget.strip().title().replace("Tv", "TV")
         else:
@@ -67,24 +68,20 @@ def objectCentroidToServo(Xcenter, Ycenter, frameWidth, frameHeight):
 
 # Main Function
 def liveVideoWithObjectDetection():
-    model = YOLO("best.onnx")
+    model = YOLO("best_ncnn_model")
     liveVideo = cv2.VideoCapture(0)
     liveVideo.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
     thread = threading.Thread(target = dynamicTargetChange, daemon = True)
     thread.start()
-    print("loop running")
     while True:
-        loopStart = time.time()
-
         retval, frame = liveVideo.read()
-        if not retval:
+        if not retval: 
             break
         frameHeight, frameWidth = frame.shape[:2]
 
-        result = (model(frame, stream = False, verbose = False))[0]
+        result = (model(frame, stream = False, verbose = False, imgzs = 320))[0]
         BoundingBox = result.boxes
-
         # Filtering out names
         namesList = BoundingBox.cls
         validList = []
@@ -115,14 +112,14 @@ def liveVideoWithObjectDetection():
             detectedObjects = BoundingBox.xywh
             currentXCenter, currentYCenter = detectedObjects[bestRow][0], detectedObjects[bestRow][1]
 
-        # Calculating Servo Angle, but also creating smoothing and deadbanding
+        # Calculating Servo Angle, but also creating deadbanding
             correctedPanAngle, correctedTiltAngle = objectCentroidToServo(currentXCenter, currentYCenter, frameWidth, frameHeight)
             
-            if (abs(correctedPanAngle) >= 8):
+            if (abs(correctedPanAngle) >= 1):
                 moveServo(correctedPanAngle)
         
 
-            if (abs(correctedTiltAngle) >= 8):
+            if (abs(correctedTiltAngle) >= 1):
                 moveServo(None, correctedTiltAngle)
            
         if showWindow:
