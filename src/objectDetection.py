@@ -11,8 +11,8 @@ horizontalFOV = 102
 
 # Setting up pigpiod daemon and  Servos
 #pigoioFactory = PiGPIOFactory()
-#panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
-#tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factoy = pigoioFactory)
+#panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
+#tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
 
 # Defining the first object being detected
 currentTarget = "Hand"
