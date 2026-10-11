@@ -11,7 +11,7 @@ tilt = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_
 
 
 input1 = input("Want to commence pan test?")
-input1 = input.title()
+input1 = input1.title()
 
 if (input1 == 'Yes'):
     pan.angle = 90   # commands the pan servo to move to its leftmost position
@@ -23,7 +23,7 @@ if (input1 == 'Yes'):
     pan.angle = 0     # returns the pan servo to center before moving on
 
 input2 = input("Want to commence tilt test?")
-input2 = input.title()
+input2 = input2.title()
 
 if (input2 == "Yes"):
     tilt.angle = 90
