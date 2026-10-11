@@ -3,7 +3,7 @@ from ultralytics import YOLO # type: ignore
 import threading
 from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
-showWindow = True
+showWindow = False
 
 # Specifications of Webcam
 horizontalFOV = 102
