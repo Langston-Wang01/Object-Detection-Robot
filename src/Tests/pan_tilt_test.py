@@ -5,7 +5,7 @@ from time import sleep
 pigoioFactory = PiGPIOFactory()
 
 pan = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
-tilt = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 180, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
+tilt = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 100, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
 
 
 
@@ -21,18 +21,21 @@ if (input1 == 'Yes'):
     pan.angle = 90
     sleep(1)
     pan.angle = 0
+    sleep(1)
+    pan.angle = 90
+    sleep(1)
 
 input2 = input("Want to commence tilt test?")
 input2 = input2.title()
 
 if (input2 == "Yes"):
+    tilt.angle = 100
+    sleep(1)
+    tilt.angle = 50
+    sleep(1)
+    tilt.angle = 0
+    sleep(1)
     tilt.angle = 90
-    sleep(1)
-    tilt.angle = 180  
-    sleep(1)
-    tilt.angle = 70   
-    sleep(1)
-    tilt.angle = 0    
     sleep(1)
 
 
