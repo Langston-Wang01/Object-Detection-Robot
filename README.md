@@ -40,7 +40,6 @@ The detector is a YOLOv8 nano model trained for 100 epochs at 320x320 on four cl
 
 The first version ran as ONNX at about 2 frames per second, which was too slow to follow a moving object, so I exported to NCNN at a smaller input size to speed it up.
 
-Training settings are in [`training/args.yaml`](training/args.yaml).
 
 ## Hardware
 
