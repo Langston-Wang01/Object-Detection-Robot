@@ -8,7 +8,7 @@ I built this over about three months, starting from no computer vision backgroun
 
 ## Demo
 
-[![Robot tracking a hand](media/demo.gif)](https://youtube.com/shorts/TGTJDFGm-Ts)
+[![Robot tracking a hand](results/demo.gif)](https://youtube.com/shorts/TGTJDFGm-Ts)
 
 Full video on [YouTube](https://youtube.com/shorts/TGTJDFGm-Ts).
 
@@ -39,7 +39,6 @@ The detector is a YOLOv8 nano model trained for 100 epochs at 320x320 on four cl
 | ![Predictions](results/val_batch0_pred.jpg) | ![Confusion matrix](results/confusion_matrix.png) |
 
 The first version ran as ONNX at about 2 frames per second, which was too slow to follow a moving object, so I exported to NCNN at a smaller input size to speed it up.
-
 
 ## Hardware
 
