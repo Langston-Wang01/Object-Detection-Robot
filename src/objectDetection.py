@@ -16,7 +16,7 @@ panServo = AngularServo(17, initial_angle = 90, min_angle = 0, max_angle = 180, 
 tiltServo = AngularServo(27, initial_angle = 90, min_angle = 0, max_angle = 100, min_pulse_width =0.0005, max_pulse_width =0.0025, pin_factory = pigoioFactory)
 
 # Defining the first object being detected
-currentTarget = "Hand"
+currentTarget = " "
 # Helper FUnctions
 
 def setAngleLimitPan(angle): # ensures we dont get errors if angles go past limits
@@ -48,7 +48,7 @@ def moveServo(panAngle = None, tiltAngle = None):
 
 def dynamicTargetChange():
     global currentTarget
-    print("Current Target is 'Hand'")
+    print("No Current Target'")
     while True:
         newTarget = input("Select a Target: ")
         newTarget = newTarget.strip().title()
