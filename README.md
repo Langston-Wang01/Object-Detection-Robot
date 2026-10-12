@@ -4,13 +4,13 @@ A camera on a two-servo mount that finds a chosen object with a custom-trained Y
 
 I built this over about three months, starting from no computer vision background, as a way to learn the full path from NumPy arrays to a model deployed on hardware.
 
-**Status:** tracking code and hardware are working. I am retraining the model on a cleaner class list, so the final weights, metrics, and demo video are marked as placeholders below.
+**Status:** working. The robot tracks with a retrained model, with results and a demo below.
 
 ## Demo
 
-> **Placeholder:** demo video coming once the retrained model is deployed.
+[![Robot tracking a hand](media/demo.gif)](https://youtube.com/shorts/TGTJDFGm-Ts)
 
-<!-- Replace the line above with the video link or an embedded GIF, e.g. ![demo](media/demo.gif) -->
+Full video on [YouTube](https://youtube.com/shorts/TGTJDFGm-Ts).
 
 ## How it works
 1. **Detect.** Each frame goes through a YOLOv8 nano model exported to NCNN, which is the format that runs fastest on the Pi's ARM CPU.
@@ -20,6 +20,27 @@ I built this over about three months, starting from no computer vision backgroun
 5. **Move.** Each servo moves 30% of the way toward the target per frame, which smooths the motion, and ignores errors under 1° so it does not twitch when the object is already centered.
 
 The target can be changed while the program runs by typing a class name into the terminal. That input is read on a separate thread so the video loop never blocks waiting for it.
+
+## Model and results
+
+The detector is a YOLOv8 nano model trained for 100 epochs at 320x320 on four classes I labeled in Roboflow: calculator, hand, mug, and wrench. It is exported to NCNN for the Pi.
+
+| Metric | Validation score |
+|---|---|
+| Precision | 0.919 |
+| Recall | 0.874 |
+| mAP50 | 0.936 |
+| mAP50-95 | 0.822 |
+
+![Training curves](results/results.png)
+
+| Predictions on validation images | Confusion matrix |
+|---|---|
+| ![Predictions](results/val_batch0_pred.jpg) | ![Confusion matrix](results/confusion_matrix.png) |
+
+The first version ran as ONNX at about 2 frames per second, which was too slow to follow a moving object, so I exported to NCNN at a smaller input size to speed it up.
+
+Training settings are in [`training/args.yaml`](training/args.yaml).
 
 ## Hardware
 
@@ -60,7 +81,10 @@ Servos are driven through `pigpio` instead of the default software PWM, which re
 - While writing the script, began modeling the physical pan-tilt mount in Onshape.
 
 ### October: tracking and retraining
-- Switched servo control to pigpio to reduce jitter.
+- Relabeled the dataset after finding duplicate boxes from auto-labeling, then retrained at 320x320.
+- Switched the model from ONNX to NCNN to raise the frame rate on the Pi.
+- Lowered the deadband from 8° to 1°, which had been causing the mount to move in large steps.
+- Switched servo control to pigpio, built from source since the current Raspberry Pi OS no longer packages it.
 - Added runtime target switching on a separate thread.
 
 ## Learning resources
