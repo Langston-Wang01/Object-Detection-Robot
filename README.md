@@ -77,13 +77,14 @@ Servos are driven through `pigpio` instead of the default software PWM, which re
 - Looked at a quick overview of the GPIO library.
 - Began writing the object detection script.
 - While writing the script, began modeling the physical pan-tilt mount in Onshape.
+- Added runtime target switching on a separate thread.
 
 ### October: tracking and retraining
-- Relabeled the dataset after finding duplicate boxes from auto-labeling, then retrained at 320x320.
+- Uploaded more images to Roboflow, which improved object recognition, but lowered previous mAP50 of 0.952
 - Switched the model from ONNX to NCNN to raise the frame rate on the Pi.
 - Lowered the deadband from 8° to 1°, which had been causing the mount to move in large steps.
-- Switched servo control to pigpio, built from source since the current Raspberry Pi OS no longer packages it.
-- Added runtime target switching on a separate thread.
+- Switched servo control to gpiozero's pigpio pin factory so pulse timing runs in a separate
+  daemon
 
 ## Learning resources
 
