@@ -48,12 +48,10 @@ def moveServo(panAngle = None, tiltAngle = None):
 
 def dynamicTargetChange():
     global currentTarget
-    print("No Current Target'")
+    print("No Current Target")
     while True:
         newTarget = input("Select a Target: ")
         newTarget = newTarget.strip().title()
-        if (newTarget == "Battery"):
-            newTarget = "battery"
         currentTarget = newTarget
 
 def objectCentroidToServo(Xcenter, Ycenter, frameWidth, frameHeight):
