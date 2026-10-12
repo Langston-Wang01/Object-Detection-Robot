@@ -25,6 +25,8 @@ The target can be changed while the program runs by typing a class name into the
 
 The detector is a YOLOv8 nano model trained for 100 epochs at 320x320 on four classes I labeled in Roboflow: calculator, hand, mug, and wrench. It is exported to NCNN for the Pi.
 
+Training code is in [`training/YOLOv8_Object_Detection_Training.ipynb`](training/YOLOv8_Object_Detection_Training.ipynb).
+
 | Metric | Validation score |
 |---|---|
 | Precision | 0.919 |
@@ -80,11 +82,10 @@ Servos are driven through `pigpio` instead of the default software PWM, which re
 - Added runtime target switching on a separate thread.
 
 ### October: tracking and retraining
-- Uploaded more images to Roboflow, which improved object recognition, but lowered previous mAP50 of 0.952
+- Added more varied images to the dataset, which made recognition on the robot more reliable even though validation mAP50 dropped from 0.952 to 0.936.
 - Switched the model from ONNX to NCNN to raise the frame rate on the Pi.
 - Lowered the deadband from 8° to 1°, which had been causing the mount to move in large steps.
-- Switched servo control to gpiozero's pigpio pin factory so pulse timing runs in a separate
-  daemon
+- Switched servo control to gpiozero's pigpio pin factory, so servo pulses are timed by a separate daemon instead of my script.
 
 ## Learning resources
 
